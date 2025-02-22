@@ -1,0 +1,38 @@
+{
+  "Comment": "Submit Spark Pi calculation jobs to EMR with concurrency of 2",
+  "StartAt": "ProcessEMRJobs",
+  "States": {
+    "ProcessEMRJobs": {
+      "Type": "Map",
+      "ItemsPath": "$.jobs",
+      "MaxConcurrency": 2,
+      "Iterator": {
+        "StartAt": "SubmitEMRStep",
+        "States": {
+          "SubmitEMRStep": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::elasticmapreduce:addStep.sync",
+            "Parameters": {
+              "ClusterId": "${EMRClusterId}",
+              "Step": {
+                "Name": "Spark Pi Job - $.jobId",
+                "ActionOnFailure": "CONTINUE",
+                "HadoopJarStep": {
+                  "Jar": "command-runner.jar",
+                  "Args": [
+                    "spark-example",
+                    "SparkPi",
+                    "10"
+                  ]
+                }
+              }
+            },
+            "End": true
+          }
+        }
+      },
+      "ResultPath": "$.results",
+      "End": true
+    }
+  }
+}
