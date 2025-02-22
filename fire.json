@@ -1,0 +1,21 @@
+{
+  "Comment": "Submit Spark Pi calculation jobs to EMR",
+  "EMRClusterId": "XX",
+  "jobs": [
+    {
+      "jobId": "site_1"
+    },
+    {
+      "jobId": "site_2"
+    },
+    {
+      "jobId": "site_3"
+    },
+    {
+      "jobId": "site_4"
+    },
+    {
+      "jobId": "site_5"
+    }
+  ]
+}
